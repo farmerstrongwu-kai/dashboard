@@ -462,12 +462,21 @@ function render(data) {
   renderMarket(data);
   renderHighlights(data.highlights);
   renderDailySummary(data.daily_summary);
-  const sorted=[...data.stocks].sort((a,b)=>{
+ const sorted=[...data.stocks].sort((a,b)=>{
+    // 大盤置頂
     if(a.is_market&&!b.is_market)return -1;
     if(!a.is_market&&b.is_market)return 1;
-    const o={buy:0,wait:1,avoid:2};
-    return(o[a.lamp]??9)-(o[b.lamp]??9)||b.score-a.score;
-  });
+    if(a.is_market&&b.is_market)return 0;
+    // 燈號排序
+    const lamp={buy:0,wait:1,avoid:2};
+    const lampDiff=(lamp[a.lamp]??9)-(lamp[b.lamp]??9);
+    if(lampDiff!==0)return lampDiff;
+    // 同燈號：LT評級排序
+    const lt={'LT-A':0,'LT-B':1,'LT-C':2};
+    const ltDiff=(lt[a.lt_rating]??9)-(lt[b.lt_rating]??9);
+    if(ltDiff!==0)return ltDiff;
+    return b.score-a.score;
+});
   document.getElementById("cards").innerHTML=sorted.map(renderCard).join("");
   document.getElementById("empty").style.display=sorted.length?"none":"block";
 }
