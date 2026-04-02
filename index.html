@@ -205,7 +205,19 @@ body{
 
 <div id="market-banner"></div>
 <div class="stat-grid" id="stat-wave"></div>
-<div class="stat-grid" id="stat-lt" style="margin-bottom:12px"></div>
+<div class="stat-grid" id="stat-lt"></div>
+<div style="text-align:right;font-size:0.6rem;color:#3a3d4a;margin-bottom:12px">
+  監控中 <span id="total-count">—</span>
+</div>
+```
+
+---
+
+**效果：**
+
+儀表板右上角統計格下方會出現：
+```
+監控中 20 支標的
 
 <!-- 今日重點 -->
 <div id="highlights"></div>
@@ -482,6 +494,9 @@ function render(data) {
     if(ltDiff!==0)return ltDiff;
     return b.score-a.score;
 });
+  document.getElementById("total-count").textContent=`共 ${ind.length} 支標的`;
+  document.getElementById("cards").innerHTML=sorted.map(renderCard).join("");
+  document.getElementById("empty").style.display=sorted.length?"none":"block";
   document.getElementById("cards").innerHTML=sorted.map(renderCard).join("");
   document.getElementById("empty").style.display=sorted.length?"none":"block";
 }
