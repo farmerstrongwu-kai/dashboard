@@ -474,7 +474,8 @@ function render(data) {
   renderMarket(data);
   renderHighlights(data.highlights);
   renderDailySummary(data.daily_summary);
- const sorted=[...data.stocks].sort((a,b)=>{
+  const ind=data.stocks.filter(s=>!s.is_market);
+  const sorted=[...data.stocks].sort((a,b)=>{
     // 大盤置頂
     if(a.is_market&&!b.is_market)return -1;
     if(!a.is_market&&b.is_market)return 1;
