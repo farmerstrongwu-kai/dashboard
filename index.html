@@ -465,6 +465,7 @@ function render(data) {
   renderMarket(data);
   renderHighlights(data.highlights);
   renderDailySummary(data.daily_summary);
+  const ind=data.stocks.filter(s=>!s.is_market);
   const sorted=[...data.stocks].sort((a,b)=>{
     if(a.is_market&&!b.is_market)return -1;
     if(!a.is_market&&b.is_market)return 1;
