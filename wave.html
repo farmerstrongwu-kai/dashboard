@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title> 波 B_v5.4 — </title>
+<title>股市儀表板 v5.1 — 波段觀察</title>
 <style>
 :root {
   --bg:#080a10; --bg2:#0f1117; --bg3:#0a0c12;
@@ -26,7 +26,7 @@ body{
 /* ── 頂部 ── */
 #topbar{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border)}
 .title{font-size:0.95rem;font-weight:700;display:flex;align-items:center;gap:6px}
-.title .diamond{color:#4a6a9a}
+.title .diamond{color:#fb923c}
 .badge{font-size:0.55rem;color:var(--muted);background:var(--border);padding:1px 5px;border-radius:3px}
 .subtitle{font-size:0.56rem;color:#2a3040;margin-top:3px}
 #updated{font-size:0.58rem;color:var(--muted);text-align:right}
@@ -40,6 +40,38 @@ body{
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
 #new-badge{display:none;background:var(--green-bg);border:1px solid var(--green-bd);color:var(--green);font-size:0.55rem;padding:1px 6px;border-radius:3px;animation:fadein 0.4s}
 @keyframes fadein{from{opacity:0;transform:translateY(-3px)}to{opacity:1;transform:none}}
+
+/* ── 波段起漲雷達 ── */
+#wave-radar{margin-bottom:10px}
+.wave-radar-title{font-size:0.58rem;color:#3a4a5a;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px}
+.wave-radar-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.macd-item{border-radius:8px;padding:8px 10px;border:1px solid var(--border2)}
+.macd-item .mi-name{font-size:0.58rem;color:#4a5a6a;margin-bottom:3px}
+.macd-item .mi-status{font-size:0.78rem;font-weight:700;margin-bottom:2px}
+.macd-item .mi-hint{font-size:0.56rem;line-height:1.4}
+.macd-item .mi-price{font-size:0.56rem;color:#3a4a5a;margin-top:3px}
+.macd-bear-exp{background:#140808;border-color:#7f1d1d}
+.macd-bear-shr{background:#1a0f00;border-color:#c2410c}
+.macd-bull-shr{background:#0f1a08;border-color:#166534}
+.macd-bull-exp{background:#081408;border-color:#15803d}
+.macd-golden{background:#0a0820;border-color:#4c1d95}
+.macd-dead{background:#140808;border-color:#991b1b}
+.wave-radar-empty{font-size:0.62rem;color:var(--dim);padding:8px;text-align:center}
+
+/* ── 距買點進度條 ── */
+.buy-progress{margin-bottom:6px}
+.bp-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.bp-label-left{font-size:0.56rem;color:var(--dim)}
+.bp-label-right{font-size:0.58rem;font-weight:600}
+.bp-track{height:5px;background:#1e2130;border-radius:3px;overflow:hidden;position:relative}
+.bp-fill{height:100%;border-radius:3px;transition:width 0.5s}
+.bp-marker{position:absolute;top:-2px;height:9px;width:2px;background:#fbbf24;border-radius:1px}
+
+/* ── 距支撐標籤 ── */
+.dist-tag{display:inline-flex;align-items:center;gap:3px;font-size:0.54rem;padding:1px 6px;border-radius:3px;margin-left:6px}
+.dist-near{background:#0d2818;color:#4ade80;border:1px solid #166534}
+.dist-mid{background:#1a1200;color:#fbbf24;border:1px solid #92400e}
+.dist-far{background:#13141a;color:#3a3d4a;border:1px solid #252830}
 
 /* ── 大盤 ── */
 #market-banner{border-radius:8px;padding:8px 12px;margin-bottom:8px}
@@ -55,18 +87,13 @@ body{
 /* ══ 今日重點區塊 ══ */
 #highlights{margin-bottom:12px}
 .hl-box{border-radius:10px;overflow:hidden;border:1px solid var(--border2)}
-.hl-header{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:10px 14px;cursor:pointer;user-select:none;
-  background:#0d1020;
-}
+.hl-header{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;cursor:pointer;user-select:none;background:#0d1020;}
 .hl-header .hl-title{font-size:0.82rem;font-weight:700;color:#e2e8f0}
 .hl-header .hl-sub{font-size:0.6rem;color:var(--muted)}
 .hl-body{padding:12px 14px;background:#0a0c18;display:none}
 .hl-box.open .hl-body{display:block}
 .hl-box.open .hl-chevron{transform:rotate(180deg)}
 .hl-chevron{color:var(--muted);font-size:0.7rem;transition:transform 0.2s}
-
 .hl-section{margin-bottom:10px}
 .hl-section:last-child{margin-bottom:0}
 .hl-section-title{font-size:0.62rem;color:var(--dim);letter-spacing:0.06em;margin-bottom:6px;text-transform:uppercase}
@@ -92,7 +119,6 @@ body{
 .card.open{border-color:var(--border2)}
 .card-head{padding:12px 14px;cursor:pointer;user-select:none;-webkit-user-select:none}
 .card-head:active{opacity:0.85}
-
 .row-title{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
 .name-area{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 .stock-name{font-size:0.95rem;font-weight:700}
@@ -101,55 +127,36 @@ body{
 .lamp-badge{font-size:0.6rem;border-radius:4px;padding:2px 7px;font-weight:600;white-space:nowrap}
 .chevron{color:var(--muted);font-size:0.7rem;margin-left:4px;transition:transform 0.2s}
 .card.open .chevron{transform:rotate(180deg)}
-
 .row-price{display:flex;align-items:baseline;gap:8px;margin-bottom:6px}
 .price{font-size:1.35rem;font-weight:700;font-variant-numeric:tabular-nums}
 .day-chg{font-weight:600;font-size:0.82rem}
 .week-chg{font-size:0.58rem;color:var(--muted);margin-left:auto}
-
-/* ── 白話建議（卡片上直接顯示）── */
-.advice-box{
-  background:#0a0f18;border:1px solid #1e2d3a;
-  border-radius:6px;padding:6px 10px;margin-bottom:6px;
-  font-size:0.68rem;color:#9aabbb;line-height:1.5;
-}
+.advice-box{background:#0a0f18;border:1px solid #1e2d3a;border-radius:6px;padding:6px 10px;margin-bottom:6px;font-size:0.68rem;color:#9aabbb;line-height:1.5;}
 .advice-box.green{background:var(--green-bg);border-color:#0d2818;color:#6dbb8a}
 .advice-box.yellow{background:var(--yellow-bg);border-color:#2a1a00;color:#c9a050}
 .advice-box.red{background:var(--red-bg);border-color:#2a1010;color:#9a7070}
-
-/* LT badge */
 .lt-badge{display:inline-flex;align-items:center;gap:5px;border-radius:5px;padding:3px 8px;margin-bottom:5px}
 .lt-badge .lt-code{font-size:0.62rem;font-weight:700}
 .lt-badge .lt-text{font-size:0.6rem;opacity:0.8}
-
-/* 加碼觸發 */
 .add-trigger-box{background:var(--green-bg);border:1px solid var(--green-bd);border-radius:5px;padding:5px 8px;margin-top:5px}
 .add-trigger-box .atitle{font-size:0.6rem;color:var(--green);font-weight:700;margin-bottom:3px}
 .add-sigs{display:flex;flex-wrap:wrap;gap:4px}
 .add-sig{background:#0d2818;color:var(--green);border:1px solid var(--green-bd);border-radius:3px;padding:1px 6px;font-size:0.56rem}
 .add-blocked{background:var(--red-bg);border:1px solid var(--red-bd);border-radius:5px;padding:4px 8px;font-size:0.58rem;color:var(--red);margin-top:5px}
-
-/* 長期持倉 */
 .lt-pos-box{background:#0a0f1a;border:1px solid #1e3a5f;border-radius:6px;padding:6px 10px;margin-top:5px}
 .lt-pos-box .lp-label{font-size:0.58rem;color:var(--blue);margin-bottom:4px}
 .lt-pos-box .lp-row{display:flex;gap:10px;align-items:center}
 .lt-pos-box .lp-item{font-size:0.65rem;color:#7aaad0}
 .lt-pos-box .lp-pnl{font-size:0.7rem;font-weight:700;margin-left:auto}
-
-/* 五關 */
 .gates{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
 .gate{font-size:0.58rem;border-radius:4px;padding:2px 6px;white-space:nowrap}
 .gate.ok{background:#0d2818;color:var(--green);border:1px solid #166534}
 .gate.no{background:#13141a;color:#3a3d4a;border:1px solid #252830}
 .gate.pnd{background:var(--border);color:var(--dim);border:1px solid var(--border2)}
-
-/* 分數條 */
 .score-bar{display:flex;align-items:center;gap:8px}
 .score-track{flex:1;height:4px;background:#1e2130;border-radius:2px;overflow:hidden}
 .score-fill{height:100%;border-radius:2px;transition:width 0.5s}
 .score-label{font-size:0.62rem;color:var(--dim);min-width:24px;text-align:right}
-
-/* 展開層 */
 .card-body{border-top:1px solid var(--border);padding:12px 14px;background:var(--bg3);display:none}
 .card.open .card-body{display:block}
 .section-title{font-size:0.6rem;color:#444;margin-bottom:5px}
@@ -179,7 +186,6 @@ body{
 .lt-detail .ld-score{font-size:0.62rem;color:#3a5a7a;margin-left:auto}
 .lt-detail .ld-reasons{font-size:0.58rem;color:#4a6a8a;line-height:1.6}
 .lt-detail .ld-sigs{margin-top:5px;font-size:0.58rem;color:var(--green)}
-
 #footer{margin-top:16px;font-size:0.56rem;color:#2a2d3a;line-height:1.9;border-top:1px solid var(--border);padding-top:10px}
 #empty{text-align:center;padding:60px 20px;color:var(--dim)}
 #empty .big{font-size:2rem;margin-bottom:12px}
@@ -191,8 +197,8 @@ body{
 
 <div id="topbar">
   <div>
-    <div class="title"><span class="diamond">◈</span> 波 B_v5.4 <span class="badge">v5.1</span></div>
-    <div class="subtitle">雙軌模式：波段操作 × 長期持有</div>
+    <div class="title"><span class="diamond">◈</span>波段觀察儀表板<span class="badge">v5.1</span></div>
+    <div class="subtitle">波段操作 — 起漲雷達 × 距買點監控</div>
   </div>
   <div><div id="updated">—</div></div>
 </div>
@@ -203,20 +209,17 @@ body{
   <span id="new-badge">有新數據</span>
 </div>
 
+<div id="wave-radar">
+  <div class="wave-radar-title">▸ 起漲雷達 — 觀察等待前4名 MACD 狀態</div>
+  <div class="wave-radar-grid" id="wave-radar-grid"></div>
+</div>
+
 <div id="market-banner"></div>
 <div class="stat-grid" id="stat-wave"></div>
-<div class="stat-grid" id="stat-lt"></div>
-<div style="text-align:right;font-size:0.6rem;color:#3a3d4a;margin-bottom:12px">
-  監控中 <span id="total-count">—</span>
-</div>
-```
+<div class="stat-grid" id="stat-lt" style="margin-bottom:12px"></div>
 
----
-
-<!-- 今日重點 -->
 <div id="highlights"></div>
 
-<!-- 每日總結 -->
 <div id="daily-summary-box">
   <div class="ds-header" onclick="toggleDS()">
     <span class="ds-title">📋 每日總結</span>
@@ -228,14 +231,14 @@ body{
 <div id="cards"></div>
 <div id="empty" style="display:none">
   <div class="big">📊</div>
-  <p>尚未載入數據<br>請設定 <code>DATA_URL</code><br>在 Colab 執行 <code>stock_v5.3_B_波段觀察.ipynb</code></p>
+  <p>尚未載入數據<br>請設定 <code>DATA_URL</code><br>在 Colab 執行波段觀察分析</p>
 </div>
 
 <div id="footer">
   <div>波段倉位：ATR×2停損，獨立於長期持倉運作。</div>
-  <div>長期倉位：週H值破0.55或季線跌破才考慮結構性出場。</div>
-  <div>⚡加碼觸發：距支撐≤3% / BB≤15% / 月跌≤-10% / MACD空頭縮短，擇一即提醒。</div>
-  <div>大盤bear狀態時，長期加碼自動封鎖。</div>
+  <div>起漲雷達：顯示觀察等待清單中評分最高的4支標的。</div>
+  <div>距買點進度條：橘色區間為目標買點，現價越靠近右側越接近買點。</div>
+  <div>距支撐標籤：綠色=距支撐≤3%，黃色=3~8%，灰色=>8%。</div>
 </div>
 
 <script>
@@ -253,11 +256,121 @@ const LAMP_COLOR={
 const LT_COLOR={"LT-A":{c:"#4ade80",bg:"#081408",bd:"#166534"},"LT-B":{c:"#fbbf24",bg:"#1a1200",bd:"#92400e"},"LT-C":{c:"#555",bg:"#111",bd:"#2a2d3a"}};
 const MARKET_STYLE={bull:{fg:"#4ade80",bg:"#081408",bd:"#166534"},bear:{fg:"#f87171",bg:"#140808",bd:"#7f1d1d"},mixed:{fg:"#fbbf24",bg:"#1a1200",bd:"#92400e"},wait:{fg:"#888",bg:"#0f1117",bd:"#2a2d3a"},unknown:{fg:"#888",bg:"#0f1117",bd:"#2a2d3a"}};
 const SCORE_COLOR=s=>s<=1?"#ef4444":s<=2?"#f97316":s<=3?"#eab308":s<=4?"#84cc16":"#22c55e";
+const MACD_META={
+  bear_exp:{label:'空頭擴大',hint:'賣壓持續，等待縮短',cls:'macd-bear-exp',color:'#f87171',urgent:false},
+  bear_shr:{label:'⚡ 空頭縮短',hint:'起漲窗口開啟！',cls:'macd-bear-shr',color:'#fb923c',urgent:true},
+  bull_shr:{label:'多頭縮短',hint:'漲勢放緩，注意回調',cls:'macd-bull-shr',color:'#86efac',urgent:false},
+  bull_exp:{label:'多頭擴大',hint:'趨勢強勁，持倉為主',cls:'macd-bull-exp',color:'#4ade80',urgent:false},
+  golden:{label:'🚀 黃金交叉',hint:'MACD翻多確認！',cls:'macd-golden',color:'#a78bfa',urgent:true},
+  dead:{label:'💀 死亡交叉',hint:'MACD翻空，避免進場',cls:'macd-dead',color:'#f87171',urgent:false},
+};
 
-let currentData=null, openCards=new Set(), pollTimer=null;
+let currentData=null, openCards=new Set();
 const cc=v=>v==null?"#666":v>0?"#4ade80":v<0?"#f87171":"#666";
 const cs=v=>v==null?"—":(v>0?"+":"")+v.toFixed(2)+"%";
 const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+// ── 波段起漲雷達（動態顯示觀察前4名）──
+function renderWaveRadar(stocks) {
+  const watchStocks = stocks
+    .filter(s => !s.is_market && s.lamp === 'wait')
+    .sort((a,b) => b.score - a.score)
+    .slice(0, 4);
+
+  if (watchStocks.length === 0) {
+    const buyStocks = stocks
+      .filter(s => !s.is_market && s.lamp === 'buy')
+      .sort((a,b) => b.score - a.score)
+      .slice(0, 4);
+    if (buyStocks.length === 0) {
+      document.getElementById('wave-radar-grid').innerHTML =
+        '<div class="wave-radar-empty" style="grid-column:1/-1">今日無觀察或進攻標的</div>';
+      return;
+    }
+    watchStocks.push(...buyStocks);
+  }
+
+  const html = watchStocks.map(s => {
+    const ms = s.macd_status || 'bear_exp';
+    const meta = MACD_META[ms] || MACD_META.bear_exp;
+    const urgentBorder = meta.urgent ? `box-shadow:0 0 0 1px ${meta.color};` : '';
+    const priceStr = s.price ? `${s.price}` : '';
+    const dayChg = s.day_chg != null
+      ? `<span style="color:${s.day_chg>=0?'#4ade80':'#f87171'}">${s.day_chg>=0?'+':''}${s.day_chg.toFixed(2)}%</span>`
+      : '';
+    const monthChg = s.month_chg != null
+      ? `<span style="color:${s.month_chg>=0?'#4ade80':'#f87171'};font-size:0.54rem">月${s.month_chg>=0?'+':''}${s.month_chg.toFixed(1)}%</span>`
+      : '';
+    const distStr = s.dist_to_support != null
+      ? `距支撐${s.dist_to_support}%`
+      : '';
+    const contextWarn = (ms==='bull_exp'||ms==='golden') && s.month_chg!=null && s.month_chg<-5
+      ? `<div style="font-size:0.52rem;color:#fb923c;margin-top:2px">⚠️ 短線反彈，月線仍弱</div>` : '';
+    return `
+      <div class="macd-item ${meta.cls}" style="${urgentBorder}">
+        <div class="mi-name">${esc(s.name)} <span style="font-size:0.5rem;color:#3a4a5a">${s.score}/5</span></div>
+        <div class="mi-status" style="color:${meta.color}">${esc(meta.label)}</div>
+        <div class="mi-hint" style="color:${meta.color}88">${esc(meta.hint)}</div>
+        <div class="mi-price">${esc(priceStr)} ${dayChg} ${monthChg}</div>
+        ${distStr?`<div style="font-size:0.52rem;color:#3a5a6a;margin-top:1px">${esc(distStr)}</div>`:''}
+        ${contextWarn}
+      </div>`;
+  }).join('');
+
+  document.getElementById('wave-radar-grid').innerHTML = html;
+}
+
+// ── 距買點進度條 ──
+function renderBuyProgress(s) {
+  if (s.is_market || !s.buy_low || !s.buy_high || !s.price) return '';
+  const price = s.price;
+  const buyLow = s.buy_low;
+  const buyHigh = s.buy_high;
+  const support = s.support || buyLow * 0.97;
+  const resistance = s.resistance || buyHigh * 1.1;
+  const range = resistance - support;
+  if (range <= 0) return '';
+
+  const pricePct = Math.min(100, Math.max(0, (price - support) / range * 100));
+  const buyLowPct = Math.min(100, Math.max(0, (buyLow - support) / range * 100));
+  const buyHighPct = Math.min(100, Math.max(0, (buyHigh - support) / range * 100));
+  const buyZoneWidth = buyHighPct - buyLowPct;
+
+  const distToBuy = price > buyHigh
+    ? ((price - buyHigh) / price * 100).toFixed(1)
+    : price < buyLow
+    ? ((buyLow - price) / price * 100).toFixed(1)
+    : null;
+
+  const inZone = price >= buyLow && price <= buyHigh;
+  const labelColor = inZone ? '#4ade80' : price > buyHigh ? '#fbbf24' : '#f87171';
+  const labelText = inZone
+    ? '✓ 已在買點區間'
+    : price > buyHigh
+    ? `距買點 -${distToBuy}%`
+    : `低於買點 +${distToBuy}%`;
+
+  return `
+    <div class="buy-progress">
+      <div class="bp-label">
+        <span class="bp-label-left">買點進度 ${buyLow}～${buyHigh}</span>
+        <span class="bp-label-right" style="color:${labelColor}">${labelText}</span>
+      </div>
+      <div class="bp-track">
+        <div style="position:absolute;left:${buyLowPct}%;width:${buyZoneWidth}%;height:100%;background:#92400e;opacity:0.6;border-radius:3px"></div>
+        <div class="bp-marker" style="left:calc(${pricePct}% - 1px)"></div>
+      </div>
+    </div>`;
+}
+
+// ── 距支撐標籤 ──
+function renderDistTag(s) {
+  if (s.is_market || s.dist_to_support == null) return '';
+  const d = s.dist_to_support;
+  if (d <= 3) return `<span class="dist-tag dist-near">距支撐 ${d}%</span>`;
+  if (d <= 8) return `<span class="dist-tag dist-mid">距支撐 ${d}%</span>`;
+  return `<span class="dist-tag dist-far">距支撐 ${d}%</span>`;
+}
 
 // ── 今日重點渲染 ──
 function renderHighlights(h) {
@@ -267,19 +380,16 @@ function renderHighlights(h) {
       <span class="hl-name">${esc(r.name)}</span>
       <span class="hl-advice">${esc(r.advice)}</span>
     </div>`).join("") || '<div class="hl-empty">今日無進攻標的</div>';
-
   const addRows = h.add_now.map(r=>`
     <div class="hl-row yellow">
       <span class="hl-name">${esc(r.name)} <span style="font-size:0.58rem;color:#92400e">${esc(r.lt_rating)}</span></span>
       <span class="hl-advice">${esc(r.advice)}</span>
     </div>`).join("") || '<div class="hl-empty">今日無加碼觸發</div>';
-
   const watchRows = h.top_watch.map(r=>`
     <div class="hl-row watch">
       <span class="hl-name">${esc(r.name)} <span style="font-size:0.58rem;color:#3a5a7a">${r.score}/5</span></span>
       <span class="hl-advice">${esc(r.advice)}</span>
     </div>`).join("") || '<div class="hl-empty">無觀察標的</div>';
-
   document.getElementById("highlights").innerHTML = `
     <div class="hl-box open" id="hl-box">
       <div class="hl-header" onclick="toggleHL()">
@@ -295,7 +405,7 @@ function renderHighlights(h) {
           ${actRows}
         </div>
         <div class="hl-section">
-          <div class="hl-section-title">⚡ 長期加碼觸發（優先順序）</div>
+          <div class="hl-section-title">⚡ 長期加碼觸發</div>
           ${addRows}
         </div>
         <div class="hl-section">
@@ -309,13 +419,11 @@ function renderHighlights(h) {
     </div>`;
 }
 
-// ── 每日總結渲染 ──
 function renderDailySummary(text) {
   if (!text) return;
   document.getElementById("ds-content").textContent = text;
 }
 
-// ── 大盤統計渲染 ──
 function renderMarket(data) {
   const ms=MARKET_STYLE[data.market_status]||MARKET_STYLE.unknown;
   document.getElementById("market-banner").innerHTML=`<div class="label" style="color:${ms.fg}">大盤濾網</div><div class="value" style="color:${ms.fg}">${esc(data.market_text)}</div>`;
@@ -330,9 +438,9 @@ function renderMarket(data) {
   const addCnt=ind.filter(s=>s.add_trigger).length;
   document.getElementById("stat-wave").innerHTML=[["進攻",buyCnt,"#4ade80","#081408","#166534"],["觀察",waitCnt,"#fbbf24","#1a1200","#92400e"],["迴避",avoidCnt,"#f87171","#140808","#7f1d1d"]].map(([l,n,fg,bg,bd])=>`<div class="stat-cell" style="background:${bg};border:1px solid ${bd}"><div class="num" style="color:${fg}">${n}</div><div class="lbl" style="color:${fg}">${l}</div></div>`).join("");
   document.getElementById("stat-lt").innerHTML=[["LT-A",ltACnt,"#4ade80","#081408","#166534"],["LT-B",ltBCnt,"#fbbf24","#1a1200","#92400e"],["⚡加碼",addCnt,"#a78bfa","#120820","#4c1d95"]].map(([l,n,fg,bg,bd])=>`<div class="stat-cell" style="background:${bg};border:1px solid ${bd}"><div class="num" style="color:${fg}">${n}</div><div class="lbl" style="color:${fg}">${l}</div></div>`).join("");
+  renderWaveRadar(data.stocks);
 }
 
-// ── 卡片渲染 ──
 function adviceClass(advice) {
   if (!advice) return '';
   if (advice.startsWith('✅')) return 'green';
@@ -350,7 +458,6 @@ function renderCard(s) {
   const advice=s.advice||"";
   const aClass=adviceClass(advice);
 
-  // LT區塊
   let ltBlock="";
   if (!s.is_market&&hasLT) {
     let posBlock="";
@@ -376,11 +483,11 @@ function renderCard(s) {
     </div>`;
   }
 
-  // 波段數據
   let waveBlock="";
   if(!s.is_market){
     const rn_ok=s.rr_now_ok,re_ok=s.rr_entry_ok;
     waveBlock=`
+      ${renderBuyProgress(s)}
       <div class="grid2" style="margin-bottom:5px">
         <div class="ptag"><div class="pl">買點區間</div><div class="pv" style="color:#4ade80">${s.buy_low}~${s.buy_high}</div></div>
         <div class="ptag"><div class="pl">ATR停損 (-${s.stop_pct}%)</div><div class="pv" style="color:#f87171">${s.stop_atr}</div></div>
@@ -402,7 +509,6 @@ function renderCard(s) {
     return`<span class="gate ${ok?"ok":"no"}">${ok?"✓":"✗"} ${esc(label)}</span>`;
   };
 
-  // 展開層
   let ltDetail="";
   if(!s.is_market&&s.lt_rating){
     const sigs=s.add_signals?.length?`<div class="ld-sigs">加碼訊號：${s.add_signals.map(esc).join(" + ")}</div>`:"";
@@ -412,6 +518,8 @@ function renderCard(s) {
 
   const inds=[["H值(日)",s.h_day?.toFixed(4)],["H值(週)",s.h_week??"N/A"],["DI+",s.di_pos],["DI-",s.di_neg],["ATR",s.atr],["月漲跌",cs(s.month_chg)],["年漲跌",cs(s.year_chg)],["BB位置",s.bb_pct+"%"]].map(([k,v])=>`<div class="ind-cell"><div class="ik">${esc(k)}</div><div class="iv">${esc(v??'—')}</div></div>`).join("");
 
+  const distTag = renderDistTag(s);
+
   return `
   <div class="card ${isOpen?"open":""}" id="card-${esc(s.symbol)}">
     <div class="card-head" onclick="toggleCard('${esc(s.symbol)}')">
@@ -420,6 +528,7 @@ function renderCard(s) {
           <span class="stock-name" style="color:${s.is_market?"#8899bb":"#e2e8f0"}">${esc(s.name)}</span>
           ${s.is_market?'<span class="market-tag">大盤</span>':''}
           <span class="symbol">${esc(s.symbol)}</span>
+          ${!s.is_market?distTag:''}
         </div>
         <div style="display:flex;align-items:center">
           <span class="lamp-badge" style="background:${lc.bg};color:${lc.fg};border:1px solid ${lc.bd}">${lc.label}</span>
@@ -468,25 +577,12 @@ function render(data) {
   renderMarket(data);
   renderHighlights(data.highlights);
   renderDailySummary(data.daily_summary);
-  const ind=data.stocks.filter(s=>!s.is_market);
   const sorted=[...data.stocks].sort((a,b)=>{
-    // 大盤置頂
     if(a.is_market&&!b.is_market)return -1;
     if(!a.is_market&&b.is_market)return 1;
-    if(a.is_market&&b.is_market)return 0;
-    // 燈號排序
-    const lamp={buy:0,wait:1,avoid:2};
-    const lampDiff=(lamp[a.lamp]??9)-(lamp[b.lamp]??9);
-    if(lampDiff!==0)return lampDiff;
-    // 同燈號：LT評級排序
-    const lt={'LT-A':0,'LT-B':1,'LT-C':2};
-    const ltDiff=(lt[a.lt_rating]??9)-(lt[b.lt_rating]??9);
-    if(ltDiff!==0)return ltDiff;
-    return b.score-a.score;
-});
-  document.getElementById("total-count").textContent=`共 ${ind.length} 支標的`;
-  document.getElementById("cards").innerHTML=sorted.map(renderCard).join("");
-  document.getElementById("empty").style.display=sorted.length?"none":"block";
+    const o={buy:0,wait:1,avoid:2};
+    return(o[a.lamp]??9)-(o[b.lamp]??9)||b.score-a.score;
+  });
   document.getElementById("cards").innerHTML=sorted.map(renderCard).join("");
   document.getElementById("empty").style.display=sorted.length?"none":"block";
 }
@@ -505,18 +601,15 @@ function toggleDS(){
   const b=document.getElementById("daily-summary-box");
   if(b)b.classList.toggle("open");
 }
-
 function setStatus(state,text){
   document.getElementById("refresh-dot").className=state;
   document.getElementById("refresh-status").textContent=text;
 }
-
 function checkVibrate(newData){
   if(!currentData||!navigator.vibrate)return;
   const old=new Set(currentData.stocks.filter(s=>s.add_trigger).map(s=>s.symbol));
   if(newData.stocks.some(s=>s.add_trigger&&!old.has(s.symbol)))navigator.vibrate([200,100,200]);
 }
-
 async function fetchData(){
   if(!DATA_URL){setStatus("error","請設定 DATA_URL");document.getElementById("empty").style.display="block";return;}
   setStatus("updating","更新中...");
@@ -538,7 +631,6 @@ async function fetchData(){
     console.error(e);
   }
 }
-
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible")fetchData();});
 fetchData();
 setInterval(fetchData,POLL_INTERVAL*1000);
